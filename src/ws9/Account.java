@@ -5,7 +5,7 @@ public class Account {
     private double balance;
     private boolean balanceSet = false; //default
 
-    public  Account(double balance) {
+    public Account(double balance) {
         this.balance = balance;
     }
 
@@ -17,7 +17,23 @@ public class Account {
         this.balanceSet = balanceSet;
     }
 
-    public synchronized double getBalance()
+    public synchronized double getBalance() {
+
+        while (this.isBalanceSet())
+        {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        this.setBalanceSet(false);
+        notify();
+        return balance;
+    }
+
+    public synchronized void setBalance(double balance)
     {
         while (!isBalanceSet())
         {
@@ -27,23 +43,9 @@ public class Account {
                 e.printStackTrace();
             }
         }
-        this.setBalanceSet(false);
-        notify();
-        return balance;
-    }
+            this.balance = balance;
+            this.setBalanceSet(true);
+            notify();
 
-    public synchronized void setBalance(double balance)
-    {
-//        while (isBalanceSet())
-//        {
-//            try {
-//                wait();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
-        this.balance = balance;
-        this.setBalanceSet(true);
-        notify();
     }
 }

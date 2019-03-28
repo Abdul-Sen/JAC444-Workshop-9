@@ -9,17 +9,16 @@ public class Depositor implements Runnable {
     public Depositor(Account account)
     {
         this.account = account;
+        System.out.println(this.account.hashCode());
     }
+
     @Override
     public void run() {
-
-        while (!account.isBalanceSet())
-        {
-            Scanner in = new Scanner(System.in);
-            System.out.println("Set balance: ");
-            System.out.print(" > ");
-            account.setBalance(in.nextDouble());
-        }
-
+        Scanner in = new Scanner(System.in);
+        System.out.println("Set balance: ");
+        System.out.print(" > ");
+        account.setBalance(in.nextDouble());
+        this.account.setBalanceSet(true);
     }
+
 }

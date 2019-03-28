@@ -6,14 +6,12 @@ public class Withdrawer implements Runnable{
     Withdrawer(Account account)
     {
         this.account = account;
+        System.out.println(this.account.hashCode());
     }
 
     @Override
     public void run() {
-        while (true)
-        {
-            System.out.print("Balance Consumed is: ");
-            System.out.println(account.getBalance());
-        }
+            System.out.println(this.account.getBalance());
+            this.account.setBalanceSet(false);
     }
 }
